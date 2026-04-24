@@ -1,4 +1,5 @@
 export const DEFAULT_SETTINGS = {
+  uiLanguage: "zh-CN",
   enabled: true,
   apiBaseUrl: "https://api.openai.com/v1",
   apiKey: "",

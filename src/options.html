@@ -1,74 +1,85 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OmeTV Translator Bridge Settings</title>
+    <title>OmeTV Translator Bridge 设置</title>
     <link rel="stylesheet" href="./options.css" />
   </head>
   <body>
     <main class="page">
       <section class="card">
-        <p class="eyebrow">OmeTV Translator Bridge</p>
-        <h1>Extension Settings</h1>
-        <p class="intro">
-          This project is designed for open-source self-hosted usage. Every user brings their own compatible AI API.
-        </p>
+        <div class="card-header">
+          <div>
+            <p id="eyebrow" class="eyebrow">OMETV 翻译桥接</p>
+            <h1 id="page-title">扩展设置</h1>
+            <p id="intro" class="intro">
+              该项目面向开源自托管使用。每位用户都需要提供自己的兼容 AI API。
+            </p>
+          </div>
+
+          <div class="locale-switch" role="group" aria-label="Language switch">
+            <button type="button" class="locale-button is-active" data-locale="zh-CN">中文</button>
+            <button type="button" class="locale-button" data-locale="en">English</button>
+          </div>
+        </div>
 
         <form id="settings-form" class="settings-form">
+          <input id="uiLanguage" type="hidden" />
+
           <label class="field">
-            <span>Enable extension</span>
+            <span id="label-enabled">启用扩展</span>
             <input id="enabled" type="checkbox" />
           </label>
 
           <label class="field">
-            <span>API base URL</span>
+            <span id="label-apiBaseUrl">API 基础 URL</span>
             <input id="apiBaseUrl" type="url" placeholder="https://api.openai.com/v1" />
           </label>
 
           <label class="field">
-            <span>API key</span>
+            <span id="label-apiKey">API 密钥</span>
             <input id="apiKey" type="password" placeholder="sk-..." autocomplete="off" />
           </label>
 
           <label class="field">
-            <span>Model</span>
+            <span id="label-model">模型</span>
             <input id="model" type="text" placeholder="gpt-4.1-mini" />
           </label>
 
           <label class="field">
-            <span>Your native language</span>
-            <input id="nativeLanguage" type="text" placeholder="Chinese (Simplified)" />
+            <span id="label-nativeLanguage">你的母语</span>
+            <select id="nativeLanguage"></select>
           </label>
 
           <label class="field checkbox-field">
             <input id="translateIncoming" type="checkbox" />
-            <span>Translate incoming messages into my language</span>
+            <span id="label-translateIncoming">把收到的信息翻译成我的语言</span>
           </label>
 
           <label class="field checkbox-field">
             <input id="translateOutgoing" type="checkbox" />
-            <span>Translate my messages before sending</span>
+            <span id="label-translateOutgoing">发送前翻译我的消息</span>
           </label>
 
           <label class="field checkbox-field">
             <input id="showOriginalText" type="checkbox" />
-            <span>Show original text next to translations</span>
+            <span id="label-showOriginalText">在翻译旁边显示原文</span>
           </label>
 
           <label class="field checkbox-field">
             <input id="autoPlayTranslatedSpeech" type="checkbox" />
-            <span>Reserve speech playback mode for a future version</span>
+            <span id="label-autoPlayTranslatedSpeech">将语音播报模式保留给未来版本</span>
           </label>
 
           <label class="field checkbox-field">
             <input id="debugMode" type="checkbox" />
-            <span>Enable debug logs on the OmeTV page</span>
+            <span id="label-debugMode">在 OmeTV 页面启用调试日志</span>
           </label>
 
           <div class="actions">
-            <button type="submit">Save Settings</button>
-            <button id="test-api" type="button" class="secondary-button">Test API</button>
+            <button id="save-button" type="submit">保存设置</button>
+            <button id="test-api" type="button" class="secondary-button">测试 API</button>
             <p id="status" class="status" aria-live="polite"></p>
           </div>
         </form>

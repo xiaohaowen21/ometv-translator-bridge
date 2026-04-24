@@ -38,6 +38,13 @@ body {
   box-shadow: var(--shadow);
 }
 
+.card-header {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
 .eyebrow {
   margin: 0 0 8px;
   font-size: 12px;
@@ -58,6 +65,30 @@ h1 {
   line-height: 1.6;
 }
 
+.locale-switch {
+  display: inline-flex;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.locale-button {
+  padding: 10px 14px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.locale-button:hover {
+  background: rgba(184, 98, 47, 0.08);
+  color: var(--accent-strong);
+}
+
+.locale-button.is-active {
+  background: var(--accent);
+  color: white;
+}
+
 .settings-form {
   display: grid;
   gap: 16px;
@@ -75,13 +106,27 @@ h1 {
 
 .field input[type="text"],
 .field input[type="url"],
-.field input[type="password"] {
+.field input[type="password"],
+.field select {
   width: 100%;
   padding: 12px 14px;
   border: 1px solid var(--border);
   border-radius: 14px;
   background: #fffdfa;
   color: var(--text);
+  font: inherit;
+}
+
+.field select {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--accent) 50%),
+    linear-gradient(135deg, var(--accent) 50%, transparent 50%);
+  background-position:
+    calc(100% - 22px) calc(50% - 3px),
+    calc(100% - 16px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
 }
 
 .checkbox-field {
@@ -123,4 +168,14 @@ button:hover {
 .status {
   margin: 0;
   color: var(--muted);
+}
+
+@media (max-width: 720px) {
+  .card-header {
+    flex-direction: column;
+  }
+
+  .actions {
+    flex-wrap: wrap;
+  }
 }
