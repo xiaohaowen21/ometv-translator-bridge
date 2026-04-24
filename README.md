@@ -1,8 +1,8 @@
 <div align="center">
   <img src="./assets/logo.svg" alt="OmeTV Translator Bridge Logo" width="104" />
   <h1>OmeTV Translator Bridge</h1>
-  <p>A browser extension prototype for translating OmeTV chats with user-provided AI APIs.</p>
-  <p><a href="./README.zh-CN.md">简体中文</a> | <strong>English</strong></p>
+  <p>一个使用用户自定义 AI 接口配置、用于翻译 OmeTV 聊天内容的浏览器插件原型。</p>
+  <p><strong>简体中文</strong> | <a href="./README.en.md">English</a></p>
   <p>
     <img src="https://img.shields.io/badge/Chrome-Manifest%20V3-4285F4?style=flat-square" alt="Chrome Manifest V3" />
     <img src="https://img.shields.io/badge/status-prototype-F59E0B?style=flat-square" alt="Prototype status" />
@@ -16,88 +16,88 @@
 ---
 
 > [!WARNING]
-> This repository has not been tested in real OmeTV conversations yet.
-> The current code should be treated as an early prototype rather than a production-ready extension.
+> 这个仓库目前还没有在真实 OmeTV 对话环境中完成测试。
+> 当前代码应被视为早期原型，而不是可直接投入生产使用的插件。
 
-## Description
+## 项目说明
 
-`OmeTV Translator Bridge` is an open-source Chrome extension prototype designed to reduce language barriers during OmeTV text chats.
+`OmeTV Translator Bridge` 是一个开源的 Chrome 插件原型，目标是在 OmeTV 文字聊天中降低语言沟通障碍。
 
-Instead of shipping a paid backend, the extension is built around user-owned configuration:
+这个项目不内置付费后端，而是围绕“用户自带配置”的方式设计：
 
-- Users provide their own `API Base URL`
-- Users provide their own `API Key`
-- Users choose their own compatible model
-- Settings are stored locally with `chrome.storage.sync`
+- 用户自己填写 `API Base URL`
+- 用户自己填写 `API Key`
+- 用户自己选择兼容的模型
+- 配置通过 `chrome.storage.sync` 保存在本地
 
-## What It Tries To Do
+## 项目目标
 
-- Detect the partner's language from incoming text
-- Translate incoming messages into the user's native language
-- Infer the partner's language from the ongoing conversation
-- Translate the user's outgoing draft before sending
-- Leave room for future speech-related experiments
+- 自动识别对方来信的语言
+- 将对方消息翻译成用户设置的母语
+- 从持续对话中推断对方语言
+- 在发送前把用户输入草稿翻译成对方语言
+- 为后续语音相关实验预留扩展空间
 
-## Current Status
+## 当前状态
 
-Already implemented:
+已实现：
 
-- Chrome Manifest V3 extension scaffold
-- Options page for API configuration
-- Popup with basic readiness status
-- Background service worker for OpenAI-compatible translation requests
-- OmeTV page injection panel
-- Incoming message observation and translation rendering
-- Outgoing draft interception after partner-language detection
-- API connectivity test button
+- Chrome Manifest V3 插件基础结构
+- API 配置设置页
+- 基础状态弹窗
+- 面向 OpenAI 兼容接口的后台翻译请求服务
+- OmeTV 页面注入状态面板
+- 来信消息监听与译文插入
+- 在识别对方语言后，对待发送草稿进行翻译
+- API 连通性测试按钮
 
-Not validated yet:
+尚未验证：
 
-- Real OmeTV DOM compatibility
-- Reliable submit behavior across all input states
-- Stability of partner-language inference
-- Long-session reliability
-- Speech input and speech playback routing
+- 与真实 OmeTV 页面结构的兼容性
+- 各种输入状态下发送行为的可靠性
+- 对方语言推断的稳定性
+- 长时间使用时的可靠性
+- 语音输入与语音播报链路
 
-## Quick Start
+## 快速开始
 
-1. Open `chrome://extensions`
-2. Enable Developer Mode
-3. Click `Load unpacked`
-4. Select this repository folder
+1. 打开 `chrome://extensions`
+2. 开启开发者模式
+3. 点击 `加载已解压的扩展程序`
+4. 选择当前仓库目录
 
-## Configuration
+## 配置方法
 
-Open the extension settings page and fill in:
+打开插件设置页后，填写以下内容：
 
 - `API Base URL`
 - `API Key`
 - `Model`
-- `Your native language`
+- `你的母语`
 
-Before opening OmeTV, it is recommended to use the `Test API` button first.
+建议在打开 OmeTV 前先使用 `Test API` 按钮测试接口是否可用。
 
-## Project Structure
+## 项目结构
 
-- `manifest.json`: extension manifest
-- `src/background.js`: service worker and API bridge
-- `src/content.js`: OmeTV DOM observer and translation injection logic
-- `src/options.*`: settings page
-- `src/popup.*`: popup UI
-- `assets/logo.svg`: repository logo used by the README
+- `manifest.json`：插件清单
+- `src/background.js`：后台服务与 API 桥接逻辑
+- `src/content.js`：OmeTV 页面监听与翻译注入逻辑
+- `src/options.*`：设置页
+- `src/popup.*`：弹窗界面
+- `assets/logo.svg`：README 使用的仓库图标
 
-## Known Limitations
+## 已知限制
 
-- DOM targeting is still heuristic and may require selector tuning
-- Host permissions are intentionally broad for OpenAI-compatible endpoints
-- Error handling is still basic
-- No automated tests exist yet
-- No real-world OmeTV validation has been completed yet
+- 当前 DOM 定位仍然是启发式方案，后续大概率需要继续调整选择器
+- 为兼容 OpenAI 风格接口，目前 host 权限设置得比较宽
+- 错误处理仍然比较基础
+- 目前还没有自动化测试
+- 目前还没有完成真实 OmeTV 场景验证
 
-## Roadmap
+## 计划路线
 
-- Test against the live OmeTV interface
-- Harden selectors and message classification
-- Improve outgoing send compatibility
-- Add provider presets and stronger configuration validation
-- Explore optional speech input and playback modes
+- 在真实 OmeTV 页面上完成联调
+- 加固页面选择器与消息分类逻辑
+- 提高发送前翻译的兼容性
+- 增加 API 提供商预设和更强的配置校验
+- 评估可选的语音输入与播报方案
