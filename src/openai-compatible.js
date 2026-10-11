@@ -11,7 +11,15 @@ export async function translateWithOpenAICompatible(settings, payload) {
     throw new Error("Missing API key. Open the extension settings and add one.");
   }
 
-  const endpoint = new URL("chat/completions", normalizeBaseUrl(settings.apiBaseUrl)).toString();
+  const endpointUrl = new URL("chat/completions", normalizeBaseUrl(settings.apiBaseUrl));
+  const isLocalHost = ["localhost", "127.0.0.1", "[::1]"].includes(endpointUrl.hostname);
+
+  // 密钥随请求头发送，除本机调试外必须走 HTTPS
+  if (endpointUrl.protocol !== "https:" && !(endpointUrl.protocol === "http:" && isLocalHost)) {
+    throw new Error("API base URL must use https:// (http:// is only allowed for localhost).");
+  }
+
+  const endpoint = endpointUrl.toString();
   const response = await fetch(endpoint, {
     method: "POST",
     headers: {
