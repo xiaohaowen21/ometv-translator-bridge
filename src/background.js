@@ -7,10 +7,19 @@ chrome.runtime.onInstalled.addListener(async () => {
   await getSettings();
 });
 
-chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message?.type === "settings:get") {
     getSettings()
-      .then((settings) => sendResponse({ ok: true, settings }))
+      .then((settings) => {
+        // 网页里的内容脚本不需要密钥本身，只告诉它是否已配置
+        if (sender?.tab) {
+          const { apiKey, ...publicSettings } = settings;
+          sendResponse({ ok: true, settings: { ...publicSettings, hasApiKey: Boolean(apiKey) } });
+          return;
+        }
+
+        sendResponse({ ok: true, settings });
+      })
       .catch((error) => sendResponse({ ok: false, error: error.message }));
 
     return true;

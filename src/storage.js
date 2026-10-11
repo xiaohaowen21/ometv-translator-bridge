@@ -12,12 +12,29 @@ export const DEFAULT_SETTINGS = {
   debugMode: false
 };
 
+// API 密钥只保存在本机（storage.local），不随浏览器账号同步到其他设备
 export async function getSettings() {
-  const stored = await chrome.storage.sync.get(DEFAULT_SETTINGS);
+  const { apiKey: _syncedKeyDefault, ...syncDefaults } = DEFAULT_SETTINGS;
+  const [stored, local] = await Promise.all([
+    chrome.storage.sync.get({ ...syncDefaults, apiKey: "" }),
+    chrome.storage.local.get({ apiKey: "" })
+  ]);
+
+  let apiKey = local.apiKey;
+
+  // 旧版本把密钥存在 sync 里：迁移到 local 并清掉同步副本
+  if (stored.apiKey) {
+    if (!apiKey) {
+      apiKey = stored.apiKey;
+      await chrome.storage.local.set({ apiKey });
+    }
+    await chrome.storage.sync.remove("apiKey");
+  }
 
   return {
     ...DEFAULT_SETTINGS,
-    ...stored
+    ...stored,
+    apiKey
   };
 }
 
@@ -26,7 +43,12 @@ export async function saveSettings(nextSettings) {
     ...DEFAULT_SETTINGS,
     ...nextSettings
   };
+  const { apiKey, ...syncable } = merged;
 
-  await chrome.storage.sync.set(merged);
+  await Promise.all([
+    chrome.storage.sync.set(syncable),
+    chrome.storage.local.set({ apiKey: apiKey || "" }),
+    chrome.storage.sync.remove("apiKey")
+  ]);
   return merged;
 }

@@ -51,9 +51,11 @@ function renderPanel(settings) {
     <strong>OmeTV Translator Bridge</strong>
     <p id="${PANEL_STATUS_ID}">Watching for messages and waiting for the chat UI to settle.</p>
     <p id="${PANEL_HINT_ID}">Partner language will be inferred from incoming text.</p>
-    <span class="ometv-translator-badge">${settings.nativeLanguage}</span>
+    <span class="ometv-translator-badge"></span>
     <button type="button">Open extension settings</button>
   `;
+
+  panel.querySelector(".ometv-translator-badge").textContent = settings.nativeLanguage;
 
   panel.querySelector("button")?.addEventListener("click", () => {
     chrome.runtime.openOptionsPage();
